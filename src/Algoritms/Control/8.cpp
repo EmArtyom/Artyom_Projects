@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <vector>
+#include <algorithm> // Для использования std::min_element
 
 int main() {
     int n;
@@ -10,8 +11,6 @@ int main() {
     std::vector<double> B, C;
     double product = 1.0;
     double sum = 0.0;
-    bool foundMin = false;
-    double minElement;
 
     std::cout << "Vvedite elementy massiva A: ";
     for (int i = 0; i < n; ++i) {
@@ -19,13 +18,14 @@ int main() {
         if (A[i] != 0) {
             product *= A[i];
         }
-        if (A[i] % 2 == 0 && !foundMin) {
-            sum += A[i];
-        }
-        if (A[i] < minElement || !foundMin) {
-            minElement = A[i];
-            foundMin = true;
-        }
+    }
+
+    // Находим минимальный элемент
+    auto minElementIter = std::min_element(A.begin(), A.end());
+
+    // Суммируем все элементы до минимального
+    for (auto it = A.begin(); it != minElementIter; ++it) {
+        sum += *it;
     }
 
     for (int i = 0; i < n; ++i) {
@@ -39,9 +39,10 @@ int main() {
 
     bool firstEvenRemoved = false;
     for (int i = 0; i < n; ++i) {
-        if (A[i] % 2 == 0 && !firstEvenRemoved) {
+        if (fmod(A[i], 2.0) == 0.0 && !firstEvenRemoved) { // Использование fmod для проверки чётности
             A.erase(A.begin() + i);
             firstEvenRemoved = true;
+            break; // Прерываем цикл после удаления первого чётного элемента
         }
     }
 

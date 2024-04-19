@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 int main() {
-  int *nums = NULL;
+  int *nums;
   int num, size = 0;
 
   printf("Enter non-negative integers (enter -1 to finish):\n");
